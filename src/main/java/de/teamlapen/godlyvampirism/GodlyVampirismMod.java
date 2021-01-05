@@ -1,8 +1,8 @@
 package de.teamlapen.godlyvampirism;
 
+import de.teamlapen.vampirism.config.BalanceBuilder;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,12 +16,11 @@ public class GodlyVampirismMod {
     
     public GodlyVampirismMod(){
         instance = this;
+        VampirismConfig.<BalanceBuilder.BoolConf>addBalanceModification("vpFireResistanceReplace", conf -> {
+            conf.setDefaultValue(false);
+            conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+        });
     }
-    
-    public void setup(FMLCommonSetupEvent event){
-        VampirismConfig.SERVER.unlockAllSkills.set(true);
-        VampirismConfig.BALANCE
-    }
-    
+
 
 }

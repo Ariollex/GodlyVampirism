@@ -48,6 +48,11 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
+    maven{
+        //My custom location for (temp) local builds
+        url = 'file://' + project.file('../../../.m2/repository').getAbsolutePath()
+    }
+
 }
 dependencies {
     minecraft([
