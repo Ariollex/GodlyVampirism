@@ -6,6 +6,7 @@ import de.teamlapen.vampirism.config.BalanceConfig;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -54,7 +55,7 @@ public class GodlyVampirismMod {
         addInteger("vaTeleportMaxDistance", 150);
         addInteger("vaRageDurationIncrease", 10);
         addInteger("miMinionPerLordLevel", 2);
-
+        addInteger("vpMaxYellowBorderPercentage", 15);
 
     }
 
@@ -74,7 +75,7 @@ public class GodlyVampirismMod {
     }
 
     public void onCommandsRegister(RegisterCommandsEvent event) {
-        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> context.hasPermissionLevel(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
+        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> context.getServer() instanceof IntegratedServer || context.hasPermissionLevel(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
     }
 
     private void addBoolean(String key, boolean def) {

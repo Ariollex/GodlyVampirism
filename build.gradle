@@ -64,7 +64,8 @@ dependencies {
     //compile against Vampirism. Version is taken from gradle.properties. We have to separate dependencies here, to trick gradle into not exporting the "_deobf" file name to pom
     compileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${minecraft_version}-${vampirism_version}")
     // 
-    runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${minecraft_version}-${vampirism_version}") 
+    runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${minecraft_version}-${vampirism_version}")
+
 }
 
 
