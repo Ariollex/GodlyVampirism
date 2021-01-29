@@ -32,12 +32,33 @@ public class GodlyVampirismMod {
 
     public GodlyVampirismMod() {
         instance = this;
-        addBoolean("vpFireResistanceReplace", false);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandsRegister);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onSetup);
+
+        //Specify changes
+        addInteger("arrowVampireKillerMaxHealth", 80);
+        addInteger("holyWaterSplashDamage", 7);
+        addDouble("holyWaterTierDamageInc", 3);
+        addInteger("skillPointsPerLevel", 2);
+        addBoolean("allowInfiniteSpecialArrows", true);
+        addInteger("haDisguiseInvisibleSQ", 128);
+        addDouble("hsMajorAttackSpeedModifier", 0.7);
+        addDouble("vsBloodThirstReduction1", -0.95);
+        addDouble("vpHealthMaxMod", 20);
+        addDouble("vpBasicBloodExhaustionMod", 0.3);
+        addDouble("vpSundamage", 1d);
+        addBoolean("vpSundamageNausea", false);
+        addBoolean("vpFireResistanceReplace", false);
+        addDouble("vpFireVulnerabilityMod", 1.5);
+        addInteger("vaTeleportCooldown", 1);
+        addInteger("vaTeleportMaxDistance", 150);
+        addInteger("vaRageDurationIncrease", 10);
+        addInteger("miMinionPerLordLevel", 2);
+
+
     }
 
-    public <Q> void create(String name, Q value) {
+    private <Q> void create(String name, Q value) {
         specSuppliers.add(() -> {
             try {
                 Field f = BalanceConfig.class.getDeclaredField(name);
