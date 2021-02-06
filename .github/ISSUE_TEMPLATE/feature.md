@@ -1,6 +1,9 @@
 ---
-name: Feature request about: Suggest an idea for this mod title: "[Feature]"
-labels: discussion, feature assignees: ''
+name: Feature request 
+about: Suggest an idea for this mod 
+title: "[Feature]" 
+labels: discussion, feature 
+assignees: '' 
 
 ---
 

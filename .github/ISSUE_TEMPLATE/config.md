@@ -1,6 +1,9 @@
 ---
-name: Config suggestion about: Suggest a changed/added configuration value title: "[Value]"
-labels: discussion, value assignees: ''
+name: Config suggestion 
+about: Suggest a changed/added configuration value 
+title: "[Value]" 
+labels: discussion, value 
+assignees: '' 
 
 ---
 
