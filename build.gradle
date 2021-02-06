@@ -11,6 +11,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.2.0'
+}
+
 
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -18,14 +22,15 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 
+
 configurations {
     optionalRuntime
     runtime.extendsFrom optionalRuntime // optionalRuntime dependencies are downloaded but not exported to POM
 }
 
-version = "1.0" // Your mod version
+version = project.minecraft_version + "-" + project.mod_version
 group = "de.teamlapen.godlyvampirism" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "godly-vampirism"
+archivesBaseName = "GodlyVampirism"
 
 sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
@@ -126,3 +131,31 @@ processResources {
     exclude '**/Thumbs.db'
 }
 
+
+curseforge {
+    if (project.hasProperty("CURSEFORGE_API")) {
+        apiKey = project.CURSEFORGE_API
+    } else {
+        apiKey = "DUMMY"
+    }
+    project {
+        id = "441422"
+        releaseType = 'release'
+
+        addGameVersion project.minecraft_version
+        if(project.minecraft_version=="1.16.4"){
+            addGameVersion "1.16.5"
+        }
+
+        mainArtifact(jar) {
+            displayName = "GodlyVampirism-${project.minecraft_version}-${project.mod_version}"
+        }
+
+        relations {
+            requiredDependency 'vampirism-become-a-vampire'
+        }
+
+    }
+
+
+}
