@@ -56,6 +56,9 @@ public class GodlyVampirismMod {
         addInteger("vaRageDurationIncrease", 10);
         addInteger("miMinionPerLordLevel", 2);
         addInteger("vpMaxYellowBorderPercentage", 15);
+        addInteger("vpNeonatalDuration",2);
+        addInteger("vpDbnoDuration",30);
+        addInteger("vpNaturalArmorRegenDuration",2);
 
     }
 
