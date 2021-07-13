@@ -10,6 +10,7 @@ import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -40,7 +41,14 @@ public class GodlyVampirismMod {
         addInteger("arrowVampireKillerMaxHealth", 80);
         addInteger("holyWaterSplashDamage", 7);
         addDouble("holyWaterTierDamageInc", 3);
-        addInteger("skillPointsPerLevel", 2);
+
+        if(ModList.get().getModContainerById("vampirism").map(c->c.getModInfo().getVersion().getMinorVersion()>7).orElse(false)){
+            addDouble("skillPointsPerLevel",1.5);
+        }
+        else{
+            addInteger("skillPointsPerLevel", 2); //TODO remove and require 1.8
+        }
+
         addBoolean("allowInfiniteSpecialArrows", true);
         addInteger("haDisguiseInvisibleSQ", 128);
         addDouble("hsMajorAttackSpeedModifier", 0.7);
@@ -82,25 +90,37 @@ public class GodlyVampirismMod {
     }
 
     private void addBoolean(String key, boolean def) {
-        VampirismConfig.<BalanceBuilder.BoolConf>addBalanceModification(key, conf -> {
-            conf.setDefaultValue(def);
-            conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+        VampirismConfig.addBalanceModification(key, conf -> {
+            try {
+                ((BalanceBuilder.BoolConf)conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+            } catch (Exception e) {
+                LOGGER.error("Failed to set "+key,e);
+            }
         });
         create(key, def);
     }
 
     private void addDouble(String key, double def) {
-        VampirismConfig.<BalanceBuilder.DoubleConf>addBalanceModification(key, conf -> {
-            conf.setDefaultValue(def);
-            conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+        VampirismConfig.addBalanceModification(key, conf -> {
+            try {
+                ((BalanceBuilder.DoubleConf)conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+            } catch (Exception e) {
+                LOGGER.error("Failed to set "+key,e);
+            }
         });
         create(key, def);
     }
 
     private void addInteger(String key, int def) {
-        VampirismConfig.<BalanceBuilder.IntConf>addBalanceModification(key, conf -> {
-            conf.setDefaultValue(def);
-            conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+        VampirismConfig.addBalanceModification(key, conf -> {
+            try {
+                ((BalanceBuilder.IntConf)conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+            } catch (Exception e) {
+                LOGGER.error("Failed to set "+key,e);
+            }
         });
         create(key, def);
     }
