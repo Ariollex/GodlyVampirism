@@ -86,7 +86,7 @@ public class GodlyVampirismMod {
     }
 
     public void onCommandsRegister(RegisterCommandsEvent event) {
-        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> !(context.getServer() instanceof DedicatedServer) || context.hasPermissionLevel(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
+        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> !(context.getServer() instanceof DedicatedServer) || context.hasPermission(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
     }
 
     private void addBoolean(String key, boolean def) {
