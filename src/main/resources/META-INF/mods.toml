@@ -1,21 +1,21 @@
-modLoader="javafml"
-loaderVersion="[32,)"
+modLoader = "javafml"
+loaderVersion = "[37,)"
 license = "MIT"
 
 [[mods]]
-    modId="godly-vampirism"
-    namespace="godly-vampirism"
-    version="${version}"
-    displayName="Godly Vampirism"
-    authors="Maxanier"
-    description="Remove limitations from Vampirism"
-    [[dependencies.godly-vampirism]]
-        modId="forge"
-        mandatory=true
-        versionRange="[${forge_version},)"
-        ordering="NONE"
-        side="BOTH"
-    [[dependencies.godly-vampirism]]
+modId = "godly_vampirism"
+namespace = "godlyvampirism"
+version = "${version}"
+displayName = "Godly Vampirism"
+authors = "Maxanier"
+description = "Remove limitations from Vampirism"
+[[dependencies.godly_vampirism]]
+modId = "forge"
+mandatory = true
+versionRange = "[${forge_version},)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.godly_vampirism]]
         modId="vampirism"
         mandatory=true
         versionRange="[${vampirism_version},)"

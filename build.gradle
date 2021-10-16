@@ -31,7 +31,8 @@ version = project.minecraft_version + "-" + project.mod_version
 group = "de.teamlapen.godlyvampirism" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "GodlyVampirism"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+
 repositories {
     //Maven repo for Vampirism
     maven {
@@ -62,9 +63,13 @@ dependencies {
     ])
     
     //compile against Vampirism. Version is taken from gradle.properties. We have to separate dependencies here, to trick gradle into not exporting the "_deobf" file name to pom
-    compileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${vampirism_mcversion}-${vampirism_version}")
-    // 
-    runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${vampirism_mcversion}-${vampirism_version}")
+    compileOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${vampirism_mcversion}-${vampirism_version}"){
+        transitive = false
+    }
+    //
+    runtimeOnly fg.deobf("de.teamlapen.vampirism:Vampirism:${vampirism_mcversion}-${vampirism_version}"){
+        transitive = false
+    }
 
 }
 
@@ -75,7 +80,6 @@ minecraft {
     runs {
         client {
             taskName 'runClient1'
-            main 'net.minecraftforge.userdev.LaunchTesting'
             property 'forge.logging.console.level', 'debug'
             property 'forge.logging.markers', ''
             //property 'mixin.env.disableRefMap', 'true'
@@ -84,7 +88,7 @@ minecraft {
             workingDirectory project.file('run/client1').canonicalPath
             
             mods {
-                "godly-vampirism" {
+                "godly_vampirism" {
                     source sourceSets.main
                 }
             }
@@ -100,7 +104,7 @@ minecraft {
             workingDirectory project.file('run/server').canonicalPath
 
             mods {
-                'godly-vampirism' {
+                'godly_vampirism' {
                     source sourceSets.main
                 }
 
@@ -111,19 +115,32 @@ minecraft {
 
 }
 
-
+//Replace strings in IDEA folders as well
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
+def replaceProperties = ['version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': vampirism_version]
 processResources {
+    inputs.properties replaceProperties
+    replaceProperties.put 'project', project
 
-    filesMatching("**/mods.toml") {
-        expand 'version': project.mod_version, 'mcversion': minecraft_version, 'forge_version': forge_version, 'vampirism_version': vampirism_version
+    filesMatching(resourceTargets) {
+        expand replaceProperties
     }
 
-
-    outputs.upToDateWhen { false }
-
+    intoTargets.each { target ->
+        if (file(target).exists()) {
+            copy {
+                from(sourceSets.main.resources) {
+                    include resourceTargets
+                    expand replaceProperties
+                }
+                into target
+            }
+        }
+    }
     exclude '**/Thumbs.db'
-}
 
+}
 
 curseforge {
     if (project.hasProperty("CURSEFORGE_API")) {
@@ -136,9 +153,6 @@ curseforge {
         releaseType = 'release'
 
         addGameVersion project.minecraft_version
-        if(project.minecraft_version=="1.16.4"){
-            addGameVersion "1.16.5"
-        }
 
         mainArtifact(jar) {
             displayName = "GodlyVampirism-${project.minecraft_version}-${project.mod_version}"

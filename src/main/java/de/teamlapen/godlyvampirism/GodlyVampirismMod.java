@@ -4,13 +4,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.teamlapen.vampirism.config.BalanceBuilder;
 import de.teamlapen.vampirism.config.BalanceConfig;
 import de.teamlapen.vampirism.config.VampirismConfig;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -25,7 +24,7 @@ import java.util.function.Supplier;
 @Mod(GodlyVampirismMod.MODID)
 public class GodlyVampirismMod {
 
-    public static final String MODID = "godly-vampirism";
+    public static final String MODID = "godly_vampirism";
     private static final Logger LOGGER = LogManager.getLogger();
     public static GodlyVampirismMod instance;
 
@@ -41,13 +40,7 @@ public class GodlyVampirismMod {
         addInteger("arrowVampireKillerMaxHealth", 80);
         addInteger("holyWaterSplashDamage", 7);
         addDouble("holyWaterTierDamageInc", 3);
-
-        if(ModList.get().getModContainerById("vampirism").map(c->c.getModInfo().getVersion().getMinorVersion()>7).orElse(false)){
-            addDouble("skillPointsPerLevel",1.5);
-        }
-        else{
-            addInteger("skillPointsPerLevel", 2); //TODO remove and require 1.8
-        }
+        addDouble("skillPointsPerLevel", 1.5);
 
         addBoolean("allowInfiniteSpecialArrows", true);
         addInteger("haDisguiseInvisibleSQ", 128);
@@ -86,14 +79,14 @@ public class GodlyVampirismMod {
     }
 
     public void onCommandsRegister(RegisterCommandsEvent event) {
-        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSource>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> !(context.getServer() instanceof DedicatedServer) || context.hasPermission(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
+        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal("godly-vampirism").then(Commands.literal("apply").requires(context -> !(context.getServer() instanceof DedicatedServer) || context.hasPermission(3)).executes(context -> forceApplyConfiguration(context.getSource()))));
     }
 
     private void addBoolean(String key, boolean def) {
         VampirismConfig.addBalanceModification(key, conf -> {
             try {
-                ((BalanceBuilder.BoolConf)conf).setDefaultValue(def);
-                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+                ((BalanceBuilder.BoolConf) conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly_vampirism");
             } catch (Exception e) {
                 LOGGER.error("Failed to set "+key,e);
             }
@@ -104,8 +97,8 @@ public class GodlyVampirismMod {
     private void addDouble(String key, double def) {
         VampirismConfig.addBalanceModification(key, conf -> {
             try {
-                ((BalanceBuilder.DoubleConf)conf).setDefaultValue(def);
-                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+                ((BalanceBuilder.DoubleConf) conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly_vampirism");
             } catch (Exception e) {
                 LOGGER.error("Failed to set "+key,e);
             }
@@ -116,8 +109,8 @@ public class GodlyVampirismMod {
     private void addInteger(String key, int def) {
         VampirismConfig.addBalanceModification(key, conf -> {
             try {
-                ((BalanceBuilder.IntConf)conf).setDefaultValue(def);
-                conf.comment(conf.getComment() + ". Modified by godly-vampirism");
+                ((BalanceBuilder.IntConf) conf).setDefaultValue(def);
+                conf.comment(conf.getComment() + ". Modified by godly_vampirism");
             } catch (Exception e) {
                 LOGGER.error("Failed to set "+key,e);
             }
@@ -125,7 +118,7 @@ public class GodlyVampirismMod {
         create(key, def);
     }
 
-    private int forceApplyConfiguration(CommandSource source) {
+    private int forceApplyConfiguration(CommandSourceStack source) {
         Iterator<Spec> it = defaultValues.iterator();
         Spec<?> v = null;
         while (it.hasNext()) {
