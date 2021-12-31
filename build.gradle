@@ -4,9 +4,11 @@ buildscript {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
+        maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 
@@ -17,6 +19,7 @@ plugins {
 
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
@@ -31,7 +34,7 @@ version = project.minecraft_version + "-" + project.mod_version
 group = "de.teamlapen.godlyvampirism" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "GodlyVampirism"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
     //Maven repo for Vampirism
