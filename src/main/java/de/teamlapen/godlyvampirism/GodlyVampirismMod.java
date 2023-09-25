@@ -47,7 +47,7 @@ public class GodlyVampirismMod {
         addDouble("hsMajorAttackSpeedModifier", 0.7);
         addDouble("vsBloodThirstReduction1", -0.95);
         addDouble("vpHealthMaxMod", 20);
-        addDouble("vpBasicBloodExhaustionMod", 0.3);
+        addDouble("vpBloodExhaustionFactor", 0.3);
         addDouble("vpSundamage", 1d);
         addBoolean("vpSundamageNausea", false);
         addBoolean("vpFireResistanceReplace", false);

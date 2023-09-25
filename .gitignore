@@ -148,3 +148,6 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 Würde src/api/ löschen
 Würde src/test/ löschen
+
+# DS_Store
+*.DS_Store
