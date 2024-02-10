@@ -40,7 +40,8 @@ public class GodlyVampirismMod {
         addInteger("arrowVampireKillerMaxHealth", 80);
         addInteger("holyWaterSplashDamage", 7);
         addDouble("holyWaterTierDamageInc", 3);
-        addDouble("skillPointsPerLevel", 1.5);
+        addDouble("skillPointsPerLevel", 3);
+        addDouble("skillPointsPerLordLevel", 3);
 
         addBoolean("allowInfiniteSpecialArrows", true);
         addInteger("haDisguiseInvisibleSQ", 128);
@@ -60,6 +61,7 @@ public class GodlyVampirismMod {
         addInteger("vpNeonatalDuration",2);
         addInteger("vpDbnoDuration",30);
         addInteger("vpNaturalArmorRegenDuration",2);
+        addInteger("miEquipmentRepairAmount", 20);
 
     }
 
